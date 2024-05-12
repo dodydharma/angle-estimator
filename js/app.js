@@ -18,6 +18,8 @@ let intersectionLabelGroup;
 // memory for current drawing operation
 let line;
 let circle;
+
+let cursor;
 let originClickPosition;
 let currentShapeName;
 let currentLabel;
@@ -254,7 +256,13 @@ function initialize(){
     intersectionLabelGroup    = new Konva.Group();    imageLayer.add(intersectionLabelGroup)
 
 
-    imageLayer.add(cursor );
+    Konva.Image.fromURL('https://raw.githubusercontent.com/dodydharma/angle-estimator/main/img/target-cursor.png',
+      function (img ) {
+        img.listening( false)
+        cursor = img
+        imageLayer.add(cursor );
+      });
+
     imageLayer.draw();
 
     // create smaller preview stage
@@ -320,8 +328,6 @@ function initialize(){
       previewStage.y(-mouseCurrentPosition.y*zoomScale + previewHeight/2);
 
     });
-
-
 
 
     workingImage.on('mousedown', (e) => {
