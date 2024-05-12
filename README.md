@@ -30,7 +30,7 @@ Save File
 
 Result:
 
-![alt tag](img/sample-calculated.png)
+![alt tag](img/sample-calculated-resized.png)
 
 
 ```
