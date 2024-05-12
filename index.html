@@ -1,0 +1,83 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Tralala Trilili </title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="css/colorPick.css">
+  <link rel="stylesheet" href="css/colorPick.dark.theme.css">
+
+  <meta name="description" content="">
+
+  <!-- Boiler Plate  -->
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  <meta property="og:image:alt" content="">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fafafa">
+
+  <!--  Script for the Application-->
+  <!--  User Interaction Lib -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+  <script src="js/colorPick.js"></script>
+
+
+
+  <!--  Math Lib-->
+  <script src="https://cdn.jsdelivr.net/npm/mathjs@12.4.2/lib/browser/math.min.js"></script>
+  <!--  Drawing Lib-->
+  <script src="https://unpkg.com/konva@9/konva.min.js"></script>
+
+</head>
+
+<body data-root="${rootContext}">
+
+  <!-- Application Content here -->
+  <div>
+    <input type="file" id="file_input">
+    <div id="slider">
+      <div id="custom-handle" class="ui-slider-handle"></div>
+    </div>
+    <form id="drawmode">
+      <fieldset>
+        <div class="picker" id="picker"></div>
+        <label><input type="radio" name="drawmode" value="line"  checked/> Line</label>
+        <label><input type="radio" name="drawmode" value="point" /> Point</label>
+        <label><input type="radio" name="drawmode" value="circle" /> Circle</label>
+        <label><input type="radio" name="drawmode" value="delete" /> delete</label>
+        <input type="submit" value="&#9100; undo" id="undo" style="margin-left: 50px">
+        <div id="buttons"><button id="save">Save as image</button></div>
+
+      </fieldset>
+    </form>
+
+  </div>
+  <div id="container"></div>
+  <img src="img/target-cursor.png" id="cursor"/>
+  <div id="preview" class="ui-widget-content"></div>
+
+  <script>
+    let cursor;
+    Konva.Image.fromURL('./img/target-cursor.png',
+      function (img ) {
+        img.listening( false)
+        cursor = img
+      });
+
+  </script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
