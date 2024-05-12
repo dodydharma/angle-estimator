@@ -30,7 +30,7 @@ Save File
 
 Result:
 
-![alt tag](img/xray/xrayscan1-calculated.png)
+![alt tag](img/xray/sample-calculated.png)
 
 
 ```
