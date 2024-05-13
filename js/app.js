@@ -672,24 +672,9 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
   horizonretotation =findAngle2Points(x,y, horizonVector[0],horizonVector[1])
 
   // Draw Arc
-  let rotation = 0;
-  if (xDirection == 1 && yDirection == -1) {
-    if(horizonretotation <0 ){
-      if(angle <=90) rotation = horizonretotation-angle
-      else rotation = horizonretotation -angle
-    }else rotation = horizonretotation-angle
-  } if (xDirection == -1 && yDirection == -1) {
-    rotation = horizonretotation
-  } if (xDirection == -1 && yDirection == 1) {
-    if(horizonretotation <0 ){
-      rotation = horizonretotation-angle
-    }else rotation = horizonretotation-angle
-  }if (xDirection == 1 && yDirection == 1) {
-    if(horizonretotation <0 ){
-      rotation = horizonretotation
-    }else {
-      rotation = horizonretotation
-    }
+  let rotation = horizonretotation;
+  if (xDirection != yDirection ) {
+    rotation = horizonretotation-angle
   }
 
   // var horizonVectorLine =   new Konva.Line({
