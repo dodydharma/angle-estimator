@@ -669,12 +669,12 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
     id:l1name+'-'+l2name,
   });
   intersectionGroup.add(intersectionPoint);
-  horizonretotation =findAngle2Points(x,y, horizonVector[0],horizonVector[1])
+  horizonrotation =findAngle2Points(x,y, horizonVector[0],horizonVector[1])
 
   // Draw Arc
-  let rotation = horizonretotation;
+  let rotation = horizonrotation;
   if (xDirection != yDirection ) {
-    rotation = horizonretotation-angle
+    rotation = horizonrotation-angle
   }
 
   // var horizonVectorLine =   new Konva.Line({
