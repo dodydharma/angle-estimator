@@ -2,8 +2,6 @@
 
 // User Interface  variable
 var window = globalThis;
-var rootdir=  window.location.origin
-console.log(rootdir)
 var width = window.innerWidth;
 var height = window.innerHeight;
 
@@ -28,6 +26,15 @@ let currentShapeName;
 let currentShapeCenter;
 let currentLabel;
 let mouseCurrentPosition
+
+// Help Protocol information Dialog
+$( "#protocolA" ).dialog({width : 550});
+$( "#showProtocolA" ).on( "click", function(event) {$( "#protocolA" ).dialog( "open" );event.preventDefault();});
+
+$( "#protocolB" ).dialog({width : 550});
+{$( "#protocolB" ).dialog( "close" );}
+$( "#showProtocolB" ).on( "click", function(event) {$( "#protocolB" ).dialog( "open" );event.preventDefault();});
+
 
 
 // Check the draw mode line,circle, or point
@@ -81,7 +88,7 @@ function activateUndo(){
 
 // listen for the file input change event and load the image.
 let URL = window.webkitURL || window.URL;
-let url;
+let url = 'https://raw.githubusercontent.com/dodydharma/angle-estimator/main/img/plain.jpg';
 $("#file_input").change(function(e){
   url = URL.createObjectURL(e.target.files[0]);
   initialize();
@@ -340,13 +347,16 @@ function initialize(){
 
       var timeout;
       $( "#container").mousemove(function(event) {
-        if (timeout !== undefined) {window.clearTimeout(timeout);}
-        timeout = window.setTimeout(function () {
-          $("#preview").animate({
-            "top" : event.pageY <= previewHeight? 100:
-              event.pageY > height - previewHeight/2?event.pageY-previewHeight:
-                event.pageY-previewHeight
-          })}, 100);
+
+        // Automove zoom preview
+
+        // if (timeout !== undefined) {window.clearTimeout(timeout);}
+        // timeout = window.setTimeout(function () {
+        //   $("#preview").animate({
+        //     "top" : event.pageY <= previewHeight? 100:
+        //       event.pageY > height - previewHeight/2?event.pageY-previewHeight:
+        //         event.pageY-previewHeight
+        //   })}, 100);
 
       });
 
@@ -706,8 +716,8 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
     id:'angle-itx-'+l1name+'-'+l2name,
     name: 'angle-itx-'+l1name+'-'+l2name
   });
-  intersectionAngle.x(x - intersectionLabel.width()/3  + 20* xDirection)
-  intersectionAngle.y(y - intersectionLabel.height()/2 + 20* yDirection)
+  intersectionAngle.x(x - intersectionAngle.width()/2  + 20* xDirection)
+  intersectionAngle.y(y - intersectionAngle.height()/2 + 20* yDirection)
   intersectionLabelGroup.add(intersectionAngle)
 
   var intersectionLabel = new Konva.Text({
@@ -726,3 +736,5 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
   intersectionLabel.y(y - (7+intersectionLabel.height()/2)*yDirection)
   intersectionLabelGroup.add(intersectionLabel)
 }
+
+initialize();

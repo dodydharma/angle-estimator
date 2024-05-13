@@ -252,6 +252,7 @@ textarea {
   left: 100px;
   border: 1px solid grey;
 }
+
 #custom-handle {
   width: 8em;
   height: 1.6em;
@@ -298,4 +299,15 @@ textarea {
   padding: 10px;
   display: block;
   margin-top: 5px;
+}
+
+#buttons2 {
+  position: absolute;
+  top: 5px;
+  left: 450px;
+}
+#buttons3 {
+  position: absolute;
+  top: 5px;
+  left: 530px;
 }
