@@ -1,4 +1,5 @@
-![alt tag](https://github.com/dodydharma)
+
+
 # Angle Estimator
 
 Lightweight tool  to estimate angle from lines intersection
