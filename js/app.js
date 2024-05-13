@@ -10,6 +10,7 @@ let stage;
 let imageLayer ;
 let lineGroup;
 let pointGroup;
+let centerGroup;
 let labelGroup;
 let boundingBoxGroup;
 let intersectionGroup;
@@ -22,6 +23,7 @@ let circle;
 let cursor;
 let originClickPosition;
 let currentShapeName;
+let currentShapeCenter;
 let currentLabel;
 let mouseCurrentPosition
 
@@ -137,6 +139,18 @@ function startDrawLine(xF,yF, xT,yT, color){
     id: 'line-' + (lineGroup.children.length+1),
   });
 
+  currentShapeCenter = new Konva.Circle({
+    x: xF,
+    y: yF,
+    radius: 1,
+    stroke: 'black',
+    fill: 'black',
+    name: 'center'+currentShapeName,
+    id:'center'+currentShapeName,
+    listening: false
+  });
+  centerGroup.add(currentShapeCenter);
+
   currentLabel = new Konva.Text({
     x: xF,
     y: yF,
@@ -170,6 +184,19 @@ function createCircle(x,y,r, color='red'){
     id:currentShapeName,
   });
   pointGroup.add(circle);
+
+  currentShapeCenter = new Konva.Circle({
+    x: x,
+    y: y,
+    radius: 1,
+    stroke: 'black',
+    fill: 'black',
+    name: 'center'+currentShapeName,
+    id:'center'+currentShapeName,
+    listening: false
+  });
+  centerGroup.add(currentShapeCenter);
+
 
   currentLabel = new Konva.Text({
     x: x,
@@ -251,6 +278,7 @@ function initialize(){
 
     lineGroup                 = new Konva.Group();    imageLayer.add(lineGroup)
     pointGroup                = new Konva.Group();    imageLayer.add(pointGroup)
+    centerGroup               = new Konva.Group();    imageLayer.add(centerGroup)
     labelGroup                = new Konva.Group();    imageLayer.add(labelGroup)
     intersectionGroup         = new Konva.Group();    imageLayer.add(intersectionGroup)
     intersectionLabelGroup    = new Konva.Group();    imageLayer.add(intersectionLabelGroup)
@@ -372,17 +400,22 @@ function initialize(){
       updateCursor();
 
       const mouseDisplacementMagnitude = math.distance([originClickPosition.x, originClickPosition.y], [mouseCurrentPosition.x,mouseCurrentPosition.y])
-      const centerX =  originClickPosition.x + ( mouseCurrentPosition.x - originClickPosition.x)*1/8
-      const centerY =  originClickPosition.y + ( mouseCurrentPosition.y - originClickPosition.y)*1/8
+      const centerX =  originClickPosition.x + ( mouseCurrentPosition.x - originClickPosition.x)/2
+      const centerY =  originClickPosition.y + ( mouseCurrentPosition.y - originClickPosition.y)/2
+      const lineLabelX =  originClickPosition.x + ( mouseCurrentPosition.x - originClickPosition.x)*2/3
+      const lineLabelY =  originClickPosition.y + ( mouseCurrentPosition.y - originClickPosition.y)*2/3
 
       // Update line rendering
       if(drawmode == 'line'){
         const points = line.points().slice();
         points[2] = mouseCurrentPosition.x;points[3] = mouseCurrentPosition.y;
         line.points(points);
-        currentLabel.x(centerX + currentLabel.width())
-        currentLabel.y(centerY + + currentLabel.height()/4)
-        currentLabel.text( line.name()+'\n'+ mouseDisplacementMagnitude.toFixed(2))
+        currentLabel.x(lineLabelX + currentLabel.width())
+        currentLabel.y(lineLabelY + currentLabel.height()/4)
+        currentLabel.text( line.name()+' | '+ mouseDisplacementMagnitude.toFixed(2))
+
+        currentShapeCenter.x(centerX)
+        currentShapeCenter.y(centerY)
       }
 
       // Update circle rendering
@@ -390,6 +423,8 @@ function initialize(){
         circle.radius(mouseDisplacementMagnitude);
         circle.x(mouseCurrentPosition.x)
         circle.y(mouseCurrentPosition.y);
+        currentShapeCenter.x(mouseCurrentPosition.x)
+        currentShapeCenter.y(mouseCurrentPosition.y)
       }
 
       imageLayer.batchDraw();
@@ -676,21 +711,21 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
     x: x,
     y: y,
     text: 'itx-'+pointIndexInAlphacharacter+'-L('+l1name.replace('line-','')+','+l2name.replace('line-','')+')',
-    fontSize: 12,
+    fontSize: 9,
     fontFamily: 'Calibri',
     fill: color,
-    align: xDirection == 1 ? 'left': 'right',
+    align: 'center',
     id:'label-itx-'+l1name+'-'+l2name,
     name: 'label-itx-'+l1name+'-'+l2name
   });
 
-  intersectionLabel.x(x + intersectionLabel.width()*2/3*xDirection)
-  intersectionLabel.y(y - intersectionLabel.height()* yDirection)
+  intersectionLabel.x(x - (7+intersectionLabel.width()/2)*xDirection)
+  intersectionLabel.y(y - (7+intersectionLabel.height()/2)*yDirection)
   intersectionLabelGroup.add(intersectionLabel)
 
   var intersectionAngle = new Konva.Text({
     x: x,
-    y: y + 15*yDirection,
+    y: y,
     text: angle.toFixed(2)+'°',
     fontSize: 13,
     fontFamily: 'Calibri',
@@ -699,7 +734,8 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
     id:'angle-itx-'+l1name+'-'+l2name,
     name: 'angle-itx-'+l1name+'-'+l2name
   });
-  intersectionAngle.x(x - intersectionLabel.width()/3 + 20*xDirection)
+  intersectionAngle.x(x - intersectionLabel.width()/3    + 20* xDirection)
+  intersectionAngle.y(y - intersectionLabel.height()/2   + 20* yDirection)
   intersectionLabelGroup.add(intersectionAngle)
 
 }
