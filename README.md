@@ -29,14 +29,13 @@ Save File
 ## Options
 
 Result:
-
-![alt tag](img/sample-calculated-resized.png)
-
+![alt tag](img/angle-calculation-plain.png)
+![alt tag](img/sample-angle-calculation.png)
+![alt tag](img/skeletal-angle-calculation.png)
 
 ```
 
-## License
-
+## MIT License
 
 (c) 2024 Dody Dharma
 https://github.com/dodydharma
