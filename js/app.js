@@ -6,8 +6,10 @@ var rootdir=  window.location.origin
 console.log(rootdir)
 var width = window.innerWidth;
 var height = window.innerHeight;
+
 let stage;
 let imageLayer ;
+
 let lineGroup;
 let pointGroup;
 let centerGroup;
@@ -145,8 +147,8 @@ function startDrawLine(xF,yF, xT,yT, color){
     radius: 1,
     stroke: 'black',
     fill: 'black',
-    name: 'center'+currentShapeName,
-    id:'center'+currentShapeName,
+    name: 'center-'+currentShapeName,
+    id:'center-'+currentShapeName,
     listening: false
   });
   centerGroup.add(currentShapeCenter);
@@ -191,8 +193,8 @@ function createCircle(x,y,r, color='red'){
     radius: 1,
     stroke: 'black',
     fill: 'black',
-    name: 'center'+currentShapeName,
-    id:'center'+currentShapeName,
+    name: 'center-'+currentShapeName,
+    id:'center-'+currentShapeName,
     listening: false
   });
   centerGroup.add(currentShapeCenter);
@@ -358,6 +360,7 @@ function initialize(){
     });
 
 
+    //  Main Drawing Event
     workingImage.on('mousedown', (e) => {
       // const leftClick = (e.evt.button === 0)
       // const rightClick= (e.evt.button === 2)
@@ -489,6 +492,9 @@ function isShowBoundingBox(show=false){
           foundLabel = stage.find('#label-'+shapeName)[0];
           if(foundLabel)foundLabel.destroy();
 
+          foundCenter = stage.find('#center-'+shapeName)[0];
+          if(foundCenter)foundCenter.destroy();
+
           intersectionGroup.getChildren().forEach(intersection =>{
             if(intersection.id().includes(shapeName))
               console.log(intersection.id(), shapeName,intersection.id().includes(shapeName))
@@ -539,6 +545,7 @@ function findLineIntersections(){
   var lines = lineGroup.getChildren();
 
   lines.forEach(checkEveryLine);
+
   function checkEveryLine(currentLine, currentLineIndex, otherLines) {
 
     otherLines.forEach(checkIntersection);
@@ -567,6 +574,7 @@ function generateIntersectionData(firstLine, secondLine){
   var xy2 = secondLine.points();
 
   var pointOfIntersection = math.intersect([xy1[0], xy1[1]], [xy1[2], xy1[3]], [xy2[0], xy2[1]], [xy2[2], xy2[3]])
+
   var intersectionAngle = getIntersectionAngle(xy1, pointOfIntersection, xy2)
   var intersectionResultant = getIntersectionResultant(xy1, pointOfIntersection, xy2)
   //var horizonAngle = getHorizonAngle(xy1, pointOfIntersection, xy2)
@@ -670,10 +678,8 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
       if(angle <=90) rotation = horizonretotation-angle
       else rotation = horizonretotation -angle
     }else rotation = horizonretotation-angle
-
   } if (xDirection == -1 && yDirection == -1) {
     rotation = horizonretotation
-
   } if (xDirection == -1 && yDirection == 1) {
     if(horizonretotation <0 ){
       rotation = horizonretotation-angle
