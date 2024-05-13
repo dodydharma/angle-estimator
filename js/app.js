@@ -654,10 +654,6 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
   var pointIndex =intersectionGroup.getChildren().length+1
   var pointIndexInAlphacharacter = (pointIndex + 9).toString(36).toUpperCase();
   var color = 'red'
-
-  var xDirection = (horizonVector[0]-x)>= 0? 1: -1
-  var yDirection = resultant[1]>= 0? 1: -1
-
   var intersectionName= 'itx-'+pointIndexInAlphacharacter;
 
   var intersectionPoint = new Konva.Circle({
@@ -669,21 +665,14 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
     id:l1name+'-'+l2name,
   });
   intersectionGroup.add(intersectionPoint);
-  horizonrotation =findAngle2Points(x,y, horizonVector[0],horizonVector[1])
 
   // Draw Arc
-  let rotation = horizonrotation;
-  if (xDirection != yDirection ) {
-    rotation = horizonrotation-angle
+  var xDirection = (horizonVector[0]-x)>= 0? 1: -1
+  var yDirection = resultant[1]>= 0? 1: -1
+  let rotation = findAngle2Points(x,y, horizonVector[0],horizonVector[1])
+  if ( xDirection != yDirection ) { // x Axis and yAxis not equally positive or negative
+    rotation = rotation-angle
   }
-
-  // var horizonVectorLine =   new Konva.Line({
-  //   stroke: 'red',
-  //   listening: false,
-  //   // points: [x, y, x+30*ratio*xDirection, y+30*yDirection],
-  //   points: [x,y, horizonVector[0],horizonVector[1]]
-  // });
-  // intersectionGroup.add(horizonVectorLine);
 
   var intersectionArc = new Konva.Arc({
     x:x,
@@ -697,6 +686,29 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
     strokeWidth: 2,
   });
   intersectionGroup.add(intersectionArc);
+
+  // var horizonVectorLine = new Konva.Line({
+  //   stroke: 'red',
+  //   listening: false,
+  //   // points: [x, y, x+30*ratio*xDirection, y+30*yDirection],
+  //   points: [x,y, horizonVector[0],horizonVector[1]]
+  // });
+  // intersectionGroup.add(horizonVectorLine);
+
+  var intersectionAngle = new Konva.Text({
+    x: x,
+    y: y,
+    text: angle.toFixed(2)+'°',
+    fontSize: 13,
+    fontFamily: 'Calibri',
+    fill: color,
+    align: 'left',
+    id:'angle-itx-'+l1name+'-'+l2name,
+    name: 'angle-itx-'+l1name+'-'+l2name
+  });
+  intersectionAngle.x(x - intersectionLabel.width()/3  + 20* xDirection)
+  intersectionAngle.y(y - intersectionLabel.height()/2 + 20* yDirection)
+  intersectionLabelGroup.add(intersectionAngle)
 
   var intersectionLabel = new Konva.Text({
     x: x,
@@ -713,20 +725,4 @@ function createIntersectionPoint(x,y,r, l1name, l2name, angle, resultant, horizo
   intersectionLabel.x(x - (7+intersectionLabel.width()/2)*xDirection)
   intersectionLabel.y(y - (7+intersectionLabel.height()/2)*yDirection)
   intersectionLabelGroup.add(intersectionLabel)
-
-  var intersectionAngle = new Konva.Text({
-    x: x,
-    y: y,
-    text: angle.toFixed(2)+'°',
-    fontSize: 13,
-    fontFamily: 'Calibri',
-    fill: color,
-    align: 'left',
-    id:'angle-itx-'+l1name+'-'+l2name,
-    name: 'angle-itx-'+l1name+'-'+l2name
-  });
-  intersectionAngle.x(x - intersectionLabel.width()/3    + 20* xDirection)
-  intersectionAngle.y(y - intersectionLabel.height()/2   + 20* yDirection)
-  intersectionLabelGroup.add(intersectionAngle)
-
 }
