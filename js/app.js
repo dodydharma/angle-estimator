@@ -28,10 +28,10 @@ let currentLabel;
 let mouseCurrentPosition
 
 // Help Protocol information Dialog
-$( "#protocolA" ).dialog({width : 550});
+$( "#protocolA" ).dialog({width : 600});
 $( "#showProtocolA" ).on( "click", function(event) {$( "#protocolA" ).dialog( "open" );event.preventDefault();});
 
-$( "#protocolB" ).dialog({width : 550});
+$( "#protocolB" ).dialog({width : 600});
 {$( "#protocolB" ).dialog( "close" );}
 $( "#showProtocolB" ).on( "click", function(event) {$( "#protocolB" ).dialog( "open" );event.preventDefault();});
 
